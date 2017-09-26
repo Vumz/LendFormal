@@ -1,0 +1,4 @@
+<li {% if active_link == "listings" %}class="active"{% endif %}><a href="{% url 'listings' %}">Men</a></li>
+<li {% if active_link == "listings" %}class="active"{% endif %}><a href="{% url 'listings' %}">Women</a></li>
+<li {% if active_link == "listings" %}class="active"{% endif %}><a href="{% url 'post' %}">Post</a></li>
+<li {% if active_link == "wardrobe" %}class="active"{% endif %}><a href="{% url 'wardrobe' %}">My Listings</a></li>

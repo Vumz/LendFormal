@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}Home{% endblock %}
+
+{% block navbar-left %}
+{% include "_navbar.html" with active_link="home" %}
+{% endblock %}
+
+{% block navbar-right %}
+{% if not user.is_authenticated %}
+<a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
+<a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a> {% else %} {{ block.super }} {% endif %} {% endblock %} {% block splash %}
+<div class="jumbotron jumbotron-carousel corporate-jumbo text-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<h1>My Listings</h1>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock splash %}
+
+{% block container %}
+<!-- Benefits of the Django application -->
+
+<div class="container">
+	<div class="well well-sm">
+		<div class="btn-group">
+			<a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list"></span>List</a>
+			<a href="#" id="grid" class="btn btn-default btn-sm"><span
+		class="glyphicon glyphicon-th"></span>Grid</a>
+
+			<button aria-controls="collapseExample" aria-expanded="false" class="btn btn-default btn-sm" data-target="#collapseExample" data-toggle="collapse" type="button"><span
+		class="glyphicon glyphicon-th"></span>Sort Items</button>
+		</div>
+		<div class="collapse" id="collapseExample">
+
+
+			<form class="form-horizontal" method="POST">{% csrf_token %}
+				<fieldset>
+
+					<!-- Select Basic -->
+					<div class="form-group">
+						<br>
+						{{form.errors}}
+						<label class="col-md-4 control-label" for="choosecolor">Select Color</label>
+						<div class="col-md-4">
+							{{form.color}}
+						</div>
+					</div>
+
+					<!-- Select Basic -->
+					<div class="form-group">
+						{{ form.size.errors }}
+						<label class="col-md-4 control-label" for="selectsize">Select Size</label>
+						<div class="col-md-4">
+							{{form.size}}
+						</div>
+					</div>
+
+					<!-- Select Basic
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="selectprice">Price Range</label>
+						<div class="col-md-4">
+							<select id="selectprice" name="selectprice" class="form-control">
+				  <option value="1">$10 or Less</option>
+				  <option value="2">$20 or Less</option>
+				  <option value="3">$30 or Less</option>
+				  <option value="4">$40 or Less</option>
+				  <option value="5">$50 or Less</option>
+				  <option value="6">$75 or Less</option>
+				  <option value="7">$100 or Less</option>
+				  <option value="8">$100 or More</option>
+				</select>
+						</div>
+					</div>-->
+
+					<!-- Button -->
+					<div class="form-group">
+						<label class="col-md-12 control-label" for="submit"></label>
+						<div class="col-md-12 text-center">
+							<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+
+
+
+
+		</div>
+	</div>
+	<div id="products" class="row list-group">
+		{% for curItem in items %}
+		{% if curItem.owner == user %}
+		<div class="item col-xs-4 col-lg-4">
+			<a href="{% url 'items:item_details' curItem.id %}">
+				<div class="thumbnail">
+					<img class="group list-group-image" src="{{curItem.file.url}}" alt="" />
+					<div class="caption">
+						<h4 class="group inner list-group-item-heading">{{curItem.name}}</h4>
+						<p class="group inner list-group-item-text text-muted">description</p>
+						<div class="row">
+							<div class="col-xs-12 col-md-6">
+								<p><strong>{{curItem.price}}</strong></p>
+							</div>
+							<div class="col-xs-12 col-md-6">
+								<a class="btn btn-primary" href="#">Rent</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+</div>
+
+	{% endblock container %} {% block scripts %}
+	<script src="{% static 'site/js/site.js' %}"></script>
+
+	<!-- Below is the Script to toggle the item listing between grid and list -->
+	<script>
+		$(document).ready(function() {
+			$('#list').click(function(event) {
+				event.preventDefault();
+				$('#products .item').addClass('list-group-item');
+			});
+			$('#grid').click(function(event) {
+				event.preventDefault();
+				$('#products .item').removeClass('list-group-item');
+				$('#products .item').addClass('grid-group-item');
+			});
+		});
+	</script>
+	{% endblock scripts %}

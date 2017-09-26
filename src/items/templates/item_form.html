@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}Home{% endblock %}
+
+{% block navbar-left %}
+{% include "_navbar.html" %}<!-- with active_link="home" -->
+{% endblock %}
+
+{% block navbar-right %}
+{% if not user.is_authenticated %}
+	<a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
+	<a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
+{% else %}
+	{{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block container %}
+
+<!-- IMPORTS/JS FOR HOVER TEXT -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+
+<!-- IMPORTS/JS FOR HOVER TEXT -->
+
+{% block content %}
+<form method="POST" class="item-form form-horizontal" enctype="multipart/form-data">{% csrf_token %}
+	<fieldset>
+
+		<div class="starter-template">
+			<h1>List an Item</h1>
+
+			<!-- File Button -->
+			<div class="form-group">
+				{{ form.file.errors }}
+				<label class="col-md-4 control-label" for="{{ form.file.id_for_label }}"><span data-toggle="tooltip" title="Upload a picture of the clothing item you want to be listed.">Image</span></label>
+				<div class="col-md-4">
+					{{ form.file }}
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				{{ form.name.errors }}
+				<label class="col-md-4 control-label" for="textinput"><span data-toggle="tooltip" title="Name of the clothing being listed, include the brand. (e.g. Kenneth Cole Reaction Dress Shoes)">Name</span></label>
+				<div class="col-md-4">
+					{{ form.name }}
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				{{ form.price.errors }}
+				<label class="col-md-4 control-label" for="textinput"><span data-toggle="tooltip" title="Price you want to charge customers for each day of rental.">Rental Price</span></label>
+				<div class="col-md-4">
+					{{ form.price }}
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				{{ form.collat.errors}}
+				<label class="col-md-4 control-label" for="textinput"><span href="" data-toggle="tooltip" title="Amount of money needed in compensation if your clothing item is damaged or not returned.">Collateral Amount</span></label>
+				<div class="col-md-4">
+					{{ form.collat }}
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				{{ form.size.errors }}
+				<label class="col-md-4 control-label" for="textinput"><span href="" data-toggle="tooltip" title="Enter the size of the dress in terms of clothing type (e.g. 'US size 7' for shoes)">Size</span></label>
+				<div class="col-md-4">
+					{{ form.size }}
+				</div>
+			</div>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+				{{ form.color.errors }}
+				<label class="col-md-4 control-label" for="selectbasic">Color</label>
+				<div class="col-md-4">
+					{{ form.color }}
+				</div>
+			</div>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+				{{ form.gender.errors }}
+				<label class="col-md-4 control-label" for="selectbasic">Gender</label>
+				<div class="col-md-4">
+					{{ form.gender }}
+				</div>
+			</div>
+
+			<!-- Textarea -->
+			<div class="form-group">
+				{{form.description.errors}}
+				<label class="col-md-4 control-label" for="textarea">Description</label>
+				<div class="col-md-4">
+					{{form.description}}
+				</div>
+			</div>
+			<button type="submit" class="save btn btn-default">Submit</button>
+	</fieldset>
+</form>
+{% endblock %}
+</div>
+{% endblock container %} {% block scripts %}
+<script src="{% static 'site/js/site.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}Home{% endblock %}
+
+{% block navbar-left %}
+  {% include "_navbar.html" %} <!-- with active_link="home" -->
+{% endblock %}
+
+{% block navbar-right %}
+  {% if not user.is_authenticated %}
+<a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
+<a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+
+
+    {% block container %}
+
+<!-- IMPORTS/JS FOR HOVER TEXT -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+<!-- IMPORTS/JS FOR HOVER TEXT -->
+
+
+<form class="form-horizontal">
+<fieldset>
+
+<div class="starter-template">
+        <h1>List an Item</h1>
+
+<!-- File Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="filebutton"><span data-toggle="tooltip" title="Upload a picture of the clothing item you want to be listed.">Image</span></label>
+  <div class="col-md-4">
+    <input id="filebutton" name="filebutton" class="input-file" type="file">
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput"><span data-toggle="tooltip" title="Name of the clothing being listed, include the brand. (e.g. Kenneth Cole Reaction Dress Shoes)">Name</span></label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="Enter clothing name" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput"><span data-toggle="tooltip" title="Price you want to charge customers for each day of rental.">Rental Price</span></label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="Enter Rental Price" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput"><span href="" data-toggle="tooltip" title="Amount of money needed in compensation if your clothing item is damaged or not returned.">Collateral Amount</span></label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="Enter Collateral Amount" class="form-control input-md">
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput"><span href="" data-toggle="tooltip" title="Enter the size of the dress in terms of clothing type (e.g. 'US size 7' for shoes)">Size</span></label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="Enter clothing size" class="form-control input-md">
+
+  </div>
+</div>
+
+<!-- Multiple Radios -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="radios">Gender</label>
+  <div class="col-md-4">
+  <div class="radio">
+    <label for="radios-0">
+      <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+      MEN
+    </label>
+  </div>
+  <div class="radio">
+    <label for="radios-1">
+      <input type="radio" name="radios" id="radios-1" value="2">
+      WOMEN
+    </label>
+  </div>
+  <div class="radio">
+   <label for="radios-2">
+      <input type="radio" name="radios" id="radios-2" value="3">
+      UNISEX
+    </label>
+  </div>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="selectbasic">Color</label>
+  <div class="col-md-4">
+    <select id="selectbasic" name="selectbasic" class="form-control">
+      <option value="0">Select Color</option>
+      <option value="White">White</option>
+      <option value="Black">Black</option>
+      <option value="Red">Red</option>
+      <option value="Blue">Blue</option>
+      <option value="Yellow">Yellow</option>
+      <option value="Orange">Orange</option>
+      <option value="Green">Green</option>
+      <option value="Purple">Purple</option>
+    </select>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textarea">Additional Comments</label>
+  <div class="col-md-4">
+    <textarea class="form-control" id="textarea" name="textarea"></textarea>
+  </div>
+</div>
+<p class="lead">  <a class="btn btn-primary" href="{% url 'postConfirmation' %}" role="button">Submit!</a></p>
+</fieldset>
+</form>
+</div>
+    {% endblock container %}
+
+{% block scripts %}
+<script src="{% static 'site/js/site.js' %}"></script>
+{% endblock scripts %}
